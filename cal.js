@@ -21,15 +21,15 @@ function calculateResult() {
   try {
     const result = eval(currentDisplay);
     const historyEntry = `${currentDisplay} = ${result}`;
-    history.push(historyEntry); // Add the calculation to history
-    saveHistory(); // Save the updated history to localStorage
+    history.push(historyEntry);
+    saveHistory();
     currentDisplay += "\n=" + result.toString();
   } catch (error) {
     currentDisplay += "=\nError";
   }
 
   updateDisplay();
-  updateHistory(); // Update the history dropdown with the new entry
+  updateHistory();
 }
 function clearLastElement() {
   currentDisplay = currentDisplay.slice(0, -1);
@@ -47,20 +47,17 @@ function clearDisplay() {
 }
 
 function saveHistory() {
-  localStorage.setItem("calculatorHistory", JSON.stringify(history)); // Save history to localStorage
+  localStorage.setItem("calculatorHistory", JSON.stringify(history));
 }
 
-// Populate the history dropdown
 function updateHistory() {
   const historyDropdownMenu = document.getElementById("historyDropdownMenu");
-  historyDropdownMenu.innerHTML = ""; // Clear previous history
-
+  historyDropdownMenu.innerHTML = "";
   history.forEach((entry) => {
     const listItem = document.createElement("li");
     listItem.classList.add("dropdown-item");
     listItem.textContent = entry;
 
-    // Reuse calculation when clicked
     listItem.onclick = function () {
       currentDisplay = entry.split(" = ")[0];
       updateDisplay();
@@ -70,8 +67,7 @@ function updateHistory() {
   });
 }
 
-// Load history on page load
 window.onload = function () {
-  history = JSON.parse(localStorage.getItem("calculatorHistory")) || []; // Load history from localStorage
-  updateHistory(); // Populate the history dropdown with loaded history
+  history = JSON.parse(localStorage.getItem("calculatorHistory")) || [];
+  updateHistory();
 };
